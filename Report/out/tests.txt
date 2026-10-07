@@ -1,0 +1,32 @@
+== stock before cancel (books 5,6)
++---------+---------------+-------+
+| book_id | title         | stock |
++---------+---------------+-------+
+|       5 | The Alchemist |    36 |
+|       6 | Atomic Habits |    20 |
++---------+---------------+-------+
+== cancel order 3
+{"updated":true}
++---------+---------------+-------+
+| book_id | title         | stock |
++---------+---------------+-------+
+|       5 | The Alchemist |    40 |
+|       6 | Atomic Habits |    22 |
++---------+---------------+-------+
++----------+-----------+
+| order_id | status    |
++----------+-----------+
+|        1 | PLACED    |
+|        2 | SHIPPED   |
+|        3 | CANCELLED |
++----------+-----------+
+== change cancelled
+{"error":"Cancelled orders cannot be changed"}
+== empty order
+{"error":"Add at least one book to the order"}
+== dup isbn
+{"error":"Duplicate value: that record already exists (9780451524935)"}
+== delete ordered book
+{"error":"Cannot delete: this record is referenced by other records (e.g. orders or books)"}
+== search
+['Clean Architecture', 'Clean Code']

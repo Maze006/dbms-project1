@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookstore Inventory &amp; Sales</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">📚 <span>Bookstore<br><small>Inventory &amp; Sales</small></span></div>
+    <nav id="nav">
+      <a href="#dashboard" data-view="dashboard">Dashboard</a>
+      <a href="#books" data-view="books">Books</a>
+      <a href="#orders" data-view="orders">Orders</a>
+      <a href="#customers" data-view="customers">Customers</a>
+      <a href="#authors" data-view="authors">Authors</a>
+      <a href="#categories" data-view="categories">Categories</a>
+    </nav>
+    <div class="stack-note">Web UI → Node.js + Express → MySQL 8</div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <h1 id="title">Dashboard</h1>
+      <div id="actions"></div>
+    </header>
+    <div id="toast" class="toast" hidden></div>
+    <section id="view"></section>
+  </main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-box">
+      <div class="modal-head"><h2 id="modal-title"></h2><button class="x" id="modal-close" aria-label="Close">&times;</button></div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

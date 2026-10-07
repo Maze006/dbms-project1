@@ -1,0 +1,253 @@
+mysql> SELECT * FROM categories;
++-------------+------------+----------------------------------+
+| category_id | name       | description                      |
++-------------+------------+----------------------------------+
+|           1 | Fiction    | Novels and short stories         |
+|           2 | Science    | Popular science and textbooks    |
+|           3 | Technology | Programming and computing        |
+|           4 | History    | Historical works and biographies |
+|           5 | Self-Help  | Personal development             |
++-------------+------------+----------------------------------+
+
+mysql> SELECT author_id, name, country FROM authors;
++-----------+-------------------+----------------+
+| author_id | name              | country        |
++-----------+-------------------+----------------+
+|         1 | George Orwell     | United Kingdom |
+|         2 | Yuval Noah Harari | Israel         |
+|         3 | Robert C. Martin  | United States  |
+|         4 | Paulo Coelho      | Brazil         |
+|         5 | James Clear       | United States  |
+|         6 | Stephen Hawking   | United Kingdom |
++-----------+-------------------+----------------+
+
+mysql> SELECT book_id, isbn, title, price, stock FROM books;
++---------+---------------+-------------------------+--------+-------+
+| book_id | isbn          | title                   | price  | stock |
++---------+---------------+-------------------------+--------+-------+
+|       1 | 9780451524935 | 1984                    | 299.00 |    24 |
+|       2 | 9780452284241 | Animal Farm             | 199.00 |    30 |
+|       3 | 9780062316097 | Sapiens                 | 499.00 |    15 |
+|       4 | 9780132350884 | Clean Code              | 699.00 |    10 |
+|       5 | 9780061122415 | The Alchemist           | 349.00 |    36 |
+|       6 | 9780735211292 | Atomic Habits           | 599.00 |    20 |
+|       7 | 9780553380163 | A Brief History of Time | 449.00 |    15 |
+|       8 | 9780134494166 | Clean Architecture      | 749.00 |     9 |
++---------+---------------+-------------------------+--------+-------+
+
+mysql> SELECT book_id, title, author, price, stock FROM v_book_catalog WHERE category='Technology';
++---------+--------------------+------------------+--------+-------+
+| book_id | title              | author           | price  | stock |
++---------+--------------------+------------------+--------+-------+
+|       4 | Clean Code         | Robert C. Martin | 699.00 |    10 |
+|       8 | Clean Architecture | Robert C. Martin | 749.00 |     9 |
++---------+--------------------+------------------+--------+-------+
+
+mysql> SELECT title, price FROM books WHERE price BETWEEN 300 AND 600 ORDER BY price DESC;
++-------------------------+--------+
+| title                   | price  |
++-------------------------+--------+
+| Atomic Habits           | 599.00 |
+| Sapiens                 | 499.00 |
+| A Brief History of Time | 449.00 |
+| The Alchemist           | 349.00 |
++-------------------------+--------+
+
+mysql> SELECT b.title, a.name AS author, c.name AS category FROM books b JOIN authors a USING(author_id) JOIN categories c USING(category_id) ORDER BY a.name;
++-------------------------+-------------------+------------+
+| title                   | author            | category   |
++-------------------------+-------------------+------------+
+| 1984                    | George Orwell     | Fiction    |
+| Animal Farm             | George Orwell     | Fiction    |
+| Atomic Habits           | James Clear       | Self-Help  |
+| The Alchemist           | Paulo Coelho      | Fiction    |
+| Clean Code              | Robert C. Martin  | Technology |
+| Clean Architecture      | Robert C. Martin  | Technology |
+| A Brief History of Time | Stephen Hawking   | Science    |
+| Sapiens                 | Yuval Noah Harari | History    |
++-------------------------+-------------------+------------+
+
+mysql> SELECT a.name AS author, COUNT(b.book_id) AS titles, SUM(b.stock) AS units FROM authors a LEFT JOIN books b ON b.author_id=a.author_id GROUP BY a.author_id ORDER BY titles DESC;
++-------------------+--------+-------+
+| author            | titles | units |
++-------------------+--------+-------+
+| George Orwell     |      2 |    54 |
+| Robert C. Martin  |      2 |    19 |
+| Yuval Noah Harari |      1 |    15 |
+| Paulo Coelho      |      1 |    36 |
+| James Clear       |      1 |    20 |
+| Stephen Hawking   |      1 |    15 |
++-------------------+--------+-------+
+
+mysql> SELECT c.name AS category, ROUND(AVG(b.price),2) AS avg_price, SUM(b.stock) AS stock FROM categories c JOIN books b USING(category_id) GROUP BY c.category_id HAVING SUM(b.stock) > 40;
++----------+-----------+-------+
+| category | avg_price | stock |
++----------+-----------+-------+
+| Fiction  |    282.33 |    90 |
++----------+-----------+-------+
+
+mysql> SELECT order_id, customer, status, total_items, total_amount FROM v_order_summary ORDER BY order_id;
++----------+-------------+---------+-------------+--------------+
+| order_id | customer    | status  | total_items | total_amount |
++----------+-------------+---------+-------------+--------------+
+|        1 | Aarav Mehta | PLACED  |           3 |      1697.00 |
+|        2 | Diya Sharma | SHIPPED |           3 |      1497.00 |
+|        3 | Rohan Verma | PLACED  |           6 |      2594.00 |
++----------+-------------+---------+-------------+--------------+
+
+mysql> SELECT oi.order_id, b.title, oi.quantity, oi.unit_price, oi.quantity*oi.unit_price AS line_total FROM order_items oi JOIN books b USING(book_id) ORDER BY oi.order_id;
++----------+---------------+----------+------------+------------+
+| order_id | title         | quantity | unit_price | line_total |
++----------+---------------+----------+------------+------------+
+|        1 | Clean Code    |        2 |     699.00 |    1398.00 |
+|        1 | 1984          |        1 |     299.00 |     299.00 |
+|        2 | Sapiens       |        3 |     499.00 |    1497.00 |
+|        3 | Atomic Habits |        2 |     599.00 |    1198.00 |
+|        3 | The Alchemist |        4 |     349.00 |    1396.00 |
++----------+---------------+----------+------------+------------+
+
+mysql> SELECT cu.name AS customer, COUNT(o.order_id) AS orders, SUM(o.total_amount) AS spent FROM customers cu LEFT JOIN orders o USING(customer_id) GROUP BY cu.customer_id ORDER BY spent DESC;
++-------------+--------+---------+
+| customer    | orders | spent   |
++-------------+--------+---------+
+| Rohan Verma |      1 | 2594.00 |
+| Aarav Mehta |      1 | 1697.00 |
+| Diya Sharma |      1 | 1497.00 |
++-------------+--------+---------+
+
+mysql> SELECT b.title, SUM(oi.quantity) AS units_sold, SUM(oi.quantity*oi.unit_price) AS revenue FROM order_items oi JOIN books b USING(book_id) GROUP BY b.book_id ORDER BY revenue DESC LIMIT 3;
++---------------+------------+---------+
+| title         | units_sold | revenue |
++---------------+------------+---------+
+| Sapiens       |          3 | 1497.00 |
+| Clean Code    |          2 | 1398.00 |
+| The Alchemist |          4 | 1396.00 |
++---------------+------------+---------+
+
+mysql> SELECT title, stock FROM books WHERE stock < (SELECT AVG(stock) FROM books) ORDER BY stock;
++-------------------------+-------+
+| title                   | stock |
++-------------------------+-------+
+| Clean Architecture      |     9 |
+| Clean Code              |    10 |
+| Sapiens                 |    15 |
+| A Brief History of Time |    15 |
++-------------------------+-------+
+
+mysql> SELECT title FROM books WHERE book_id NOT IN (SELECT book_id FROM order_items);
++-------------------------+
+| title                   |
++-------------------------+
+| A Brief History of Time |
+| Animal Farm             |
+| Clean Architecture      |
++-------------------------+
+
+mysql> SELECT status, COUNT(*) AS orders, SUM(total_amount) AS amount FROM orders GROUP BY status;
++---------+--------+---------+
+| status  | orders | amount  |
++---------+--------+---------+
+| PLACED  |      2 | 4291.00 |
+| SHIPPED |      1 | 1497.00 |
++---------+--------+---------+
+
+mysql> SELECT book_id, title, stock FROM books WHERE book_id IN (1,3,4,5,6);
++---------+---------------+-------+
+| book_id | title         | stock |
++---------+---------------+-------+
+|       1 | 1984          |    24 |
+|       3 | Sapiens       |    15 |
+|       4 | Clean Code    |    10 |
+|       5 | The Alchemist |    36 |
+|       6 | Atomic Habits |    20 |
++---------+---------------+-------+
+
+mysql> SELECT TRIGGER_NAME, EVENT_MANIPULATION AS event, ACTION_TIMING AS timing, EVENT_OBJECT_TABLE AS tbl FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA='bookstore_db';
++-------------------------+--------+--------+-------------+
+| TRIGGER_NAME            | event  | timing | tbl         |
++-------------------------+--------+--------+-------------+
+| trg_items_before_insert | INSERT | BEFORE | order_items |
+| trg_items_after_insert  | INSERT | AFTER  | order_items |
+| trg_items_after_delete  | DELETE | AFTER  | order_items |
++-------------------------+--------+--------+-------------+
+
+mysql> DESCRIBE categories;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| category_id | int          | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(80)  | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+
+mysql> DESCRIBE authors;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| author_id | int          | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(120) | NO   | UNI | NULL    |                |
+| country   | varchar(80)  | YES  |     | NULL    |                |
+| bio       | varchar(500) | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+
+mysql> DESCRIBE books;
++----------------+---------------+------+-----+-------------------+-------------------+
+| Field          | Type          | Null | Key | Default           | Extra             |
++----------------+---------------+------+-----+-------------------+-------------------+
+| book_id        | int           | NO   | PRI | NULL              | auto_increment    |
+| isbn           | varchar(20)   | NO   | UNI | NULL              |                   |
+| title          | varchar(200)  | NO   | MUL | NULL              |                   |
+| author_id      | int           | NO   | MUL | NULL              |                   |
+| category_id    | int           | NO   | MUL | NULL              |                   |
+| price          | decimal(10,2) | NO   |     | NULL              |                   |
+| stock          | int           | NO   |     | 0                 |                   |
+| published_year | smallint      | YES  |     | NULL              |                   |
+| created_at     | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++----------------+---------------+------+-----+-------------------+-------------------+
+
+mysql> DESCRIBE customers;
++-------------+--------------+------+-----+-------------------+-------------------+
+| Field       | Type         | Null | Key | Default           | Extra             |
++-------------+--------------+------+-----+-------------------+-------------------+
+| customer_id | int          | NO   | PRI | NULL              | auto_increment    |
+| name        | varchar(120) | NO   |     | NULL              |                   |
+| email       | varchar(120) | NO   | UNI | NULL              |                   |
+| phone       | varchar(20)  | YES  |     | NULL              |                   |
+| address     | varchar(255) | YES  |     | NULL              |                   |
+| created_at  | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++-------------+--------------+------+-----+-------------------+-------------------+
+
+mysql> DESCRIBE orders;
++--------------+--------------------------------------------------+------+-----+-------------------+-------------------+
+| Field        | Type                                             | Null | Key | Default           | Extra             |
++--------------+--------------------------------------------------+------+-----+-------------------+-------------------+
+| order_id     | int                                              | NO   | PRI | NULL              | auto_increment    |
+| customer_id  | int                                              | NO   | MUL | NULL              |                   |
+| order_date   | timestamp                                        | NO   | MUL | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| status       | enum('PLACED','SHIPPED','DELIVERED','CANCELLED') | NO   |     | PLACED            |                   |
+| total_amount | decimal(12,2)                                    | NO   |     | 0.00              |                   |
++--------------+--------------------------------------------------+------+-----+-------------------+-------------------+
+
+mysql> DESCRIBE order_items;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| order_item_id | int           | NO   | PRI | NULL    | auto_increment |
+| order_id      | int           | NO   | MUL | NULL    |                |
+| book_id       | int           | NO   | MUL | NULL    |                |
+| quantity      | int           | NO   |     | NULL    |                |
+| unit_price    | decimal(10,2) | NO   |     | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+
+mysql> INSERT INTO books (isbn,title,author_id,category_id,price,stock) VALUES ('X1','Bad',1,1,-5,1);
+ERROR 3819 (HY000) at line 1: Check constraint 'chk_book_price' is violated.
+
+mysql> INSERT INTO customers (name,email) VALUES ('Dup','aarav@example.com');
+ERROR 1062 (23000) at line 1: Duplicate entry 'aarav@example.com' for key 'customers.email'
+
+mysql> INSERT INTO order_items (order_id,book_id,quantity,unit_price) VALUES (1,2,999,199);
+ERROR 1644 (45000) at line 1: Insufficient stock for requested book
+
+mysql> DELETE FROM authors WHERE author_id=1;
+ERROR 1451 (23000) at line 1: Cannot delete or update a parent row: a foreign key constraint fails (`bookstore_db`.`books`, CONSTRAINT `fk_book_author` FOREIGN KEY (`author_id`) REFERENCES `authors` (`author_id`) ON DELETE RESTRICT ON UPDATE CASCADE)
+

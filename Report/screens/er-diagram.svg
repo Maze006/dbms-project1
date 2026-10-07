@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="800" viewBox="0 0 1080 800" font-family="Helvetica,Arial,sans-serif">
+<rect width="1080" height="800" fill="#ffffff"/>
+<rect x="30" y="30" width="260" height="124" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M30 60 V36 a6 6 0 0 1 6 -6 H284 a6 6 0 0 1 6 6 V60 Z" fill="#0f2a35"/>
+<text x="160.0" y="51" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">AUTHORS</text>
+<text x="44" y="78" font-size="13.5" fill="#c27c0e" font-weight="700">PK author_id</text>
+<text x="44" y="100" font-size="13.5" fill="#14262d" font-weight="400">name</text>
+<text x="44" y="122" font-size="13.5" fill="#14262d" font-weight="400">country</text>
+<text x="44" y="144" font-size="13.5" fill="#14262d" font-weight="400">bio</text>
+<rect x="390" y="30" width="260" height="234" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M390 60 V36 a6 6 0 0 1 6 -6 H644 a6 6 0 0 1 6 6 V60 Z" fill="#0f2a35"/>
+<text x="520.0" y="51" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">BOOKS</text>
+<text x="404" y="78" font-size="13.5" fill="#c27c0e" font-weight="700">PK book_id</text>
+<text x="404" y="100" font-size="13.5" fill="#14262d" font-weight="400">isbn (UNIQUE)</text>
+<text x="404" y="122" font-size="13.5" fill="#14262d" font-weight="400">title</text>
+<text x="404" y="144" font-size="13.5" fill="#1a7480" font-weight="400">FK author_id</text>
+<text x="404" y="166" font-size="13.5" fill="#1a7480" font-weight="400">FK category_id</text>
+<text x="404" y="188" font-size="13.5" fill="#14262d" font-weight="400">price</text>
+<text x="404" y="210" font-size="13.5" fill="#14262d" font-weight="400">stock</text>
+<text x="404" y="232" font-size="13.5" fill="#14262d" font-weight="400">published_year</text>
+<text x="404" y="254" font-size="13.5" fill="#14262d" font-weight="400">created_at</text>
+<rect x="750" y="30" width="260" height="102" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M750 60 V36 a6 6 0 0 1 6 -6 H1004 a6 6 0 0 1 6 6 V60 Z" fill="#0f2a35"/>
+<text x="880.0" y="51" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">CATEGORIES</text>
+<text x="764" y="78" font-size="13.5" fill="#c27c0e" font-weight="700">PK category_id</text>
+<text x="764" y="100" font-size="13.5" fill="#14262d" font-weight="400">name (UNIQUE)</text>
+<text x="764" y="122" font-size="13.5" fill="#14262d" font-weight="400">description</text>
+<rect x="390" y="360" width="260" height="146" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M390 390 V366 a6 6 0 0 1 6 -6 H644 a6 6 0 0 1 6 6 V390 Z" fill="#0f2a35"/>
+<text x="520.0" y="381" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">ORDER_ITEMS</text>
+<text x="404" y="408" font-size="13.5" fill="#c27c0e" font-weight="700">PK order_item_id</text>
+<text x="404" y="430" font-size="13.5" fill="#1a7480" font-weight="400">FK order_id</text>
+<text x="404" y="452" font-size="13.5" fill="#1a7480" font-weight="400">FK book_id</text>
+<text x="404" y="474" font-size="13.5" fill="#14262d" font-weight="400">quantity</text>
+<text x="404" y="496" font-size="13.5" fill="#14262d" font-weight="400">unit_price</text>
+<rect x="750" y="360" width="260" height="146" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M750 390 V366 a6 6 0 0 1 6 -6 H1004 a6 6 0 0 1 6 6 V390 Z" fill="#0f2a35"/>
+<text x="880.0" y="381" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">ORDERS</text>
+<text x="764" y="408" font-size="13.5" fill="#c27c0e" font-weight="700">PK order_id</text>
+<text x="764" y="430" font-size="13.5" fill="#1a7480" font-weight="400">FK customer_id</text>
+<text x="764" y="452" font-size="13.5" fill="#14262d" font-weight="400">order_date</text>
+<text x="764" y="474" font-size="13.5" fill="#14262d" font-weight="400">status</text>
+<text x="764" y="496" font-size="13.5" fill="#14262d" font-weight="400">total_amount</text>
+<rect x="750" y="580" width="260" height="168" rx="6" fill="#f1f6f7" stroke="#0f2a35" stroke-width="2"/>
+<path d="M750 610 V586 a6 6 0 0 1 6 -6 H1004 a6 6 0 0 1 6 6 V610 Z" fill="#0f2a35"/>
+<text x="880.0" y="601" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">CUSTOMERS</text>
+<text x="764" y="628" font-size="13.5" fill="#c27c0e" font-weight="700">PK customer_id</text>
+<text x="764" y="650" font-size="13.5" fill="#14262d" font-weight="400">name</text>
+<text x="764" y="672" font-size="13.5" fill="#14262d" font-weight="400">email (UNIQUE)</text>
+<text x="764" y="694" font-size="13.5" fill="#14262d" font-weight="400">phone</text>
+<text x="764" y="716" font-size="13.5" fill="#14262d" font-weight="400">address</text>
+<text x="764" y="738" font-size="13.5" fill="#14262d" font-weight="400">created_at</text>
+<line x1="290" y1="90" x2="390" y2="90" stroke="#1a7480" stroke-width="2.2"/>
+<text x="298" y="82" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">1</text>
+<text x="382" y="82" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="end">N</text>
+<text x="340.0" y="80" font-size="12.5" font-style="italic" fill="#62777f" text-anchor="middle">writes</text>
+<line x1="650" y1="90" x2="750" y2="90" stroke="#1a7480" stroke-width="2.2"/>
+<text x="658" y="82" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">N</text>
+<text x="742" y="82" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="end">1</text>
+<text x="700.0" y="80" font-size="12.5" font-style="italic" fill="#62777f" text-anchor="middle">belongs to</text>
+<line x1="520.0" y1="264" x2="520.0" y2="360" stroke="#1a7480" stroke-width="2.2"/>
+<text x="528.0" y="280" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">1</text>
+<text x="528.0" y="352" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">N</text>
+<text x="568.0" y="316.0" font-size="12.5" font-style="italic" fill="#62777f" text-anchor="middle">appears in</text>
+<line x1="650" y1="430" x2="750" y2="430" stroke="#1a7480" stroke-width="2.2"/>
+<text x="658" y="422" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">N</text>
+<text x="742" y="422" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="end">1</text>
+<text x="700.0" y="420" font-size="12.5" font-style="italic" fill="#62777f" text-anchor="middle">part of</text>
+<line x1="880.0" y1="506" x2="880.0" y2="580" stroke="#1a7480" stroke-width="2.2"/>
+<text x="888.0" y="522" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">N</text>
+<text x="888.0" y="572" font-size="14" font-weight="700" fill="#0f2a35" text-anchor="start">1</text>
+<text x="928.0" y="547.0" font-size="12.5" font-style="italic" fill="#62777f" text-anchor="middle">placed by</text>
+</svg>
